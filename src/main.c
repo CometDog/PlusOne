@@ -58,7 +58,7 @@ static void update_bg(Layer *layer, GContext *ctx) {
       y = y - 12;
       x = 36;
     }
-    graphics_fill_circle(ctx, GPoint(x,y), 2);
+    graphics_fill_circle(ctx, GPoint(x,y), 1);
     x += 12; // Move along x-axis at 12 pixels each iteration...
     if (x > (5 * 12)) { // ...until there are five in a row...
       x = 12; // ... then reset the x position...
@@ -79,7 +79,7 @@ static void update_bg(Layer *layer, GContext *ctx) {
     graphics_context_set_fill_color(ctx, GColorWhite);
   #endif
   while (dot <= 10) { // Create only 10 dots
-    graphics_fill_circle(ctx, GPoint(x,y), 2);
+    graphics_fill_circle(ctx, GPoint(x,y), 1);
     y = y - 12; // Move to next row up
     dot += 1; // Next dot
   }
