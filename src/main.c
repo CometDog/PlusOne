@@ -285,13 +285,13 @@ static void main_window_load(Window *window) {
 // Hide/Unhide labels when called
 static void timer_callback(void *data) {
   
-  if (running == true) {
-    // Checks if watch was already shaken (shook!?)
-    if (shake == true) {
-      shake = false;
-    }
-    else if (shake == false) {
-    // First. Bluetooth check.
+  // Checks if watch was already shaken (shook!?)
+  if (shake == true) {
+    shake = false;
+  }
+  else if (shake == false) {
+    if (running == true) {
+      // First. Bluetooth check.
       if (state == 0) {
         text_layer_set_text(s_state_top_label, "DA");
         text_layer_set_text(s_state_bottom_label, "TE");
