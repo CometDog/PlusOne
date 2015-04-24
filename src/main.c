@@ -285,54 +285,56 @@ static void main_window_load(Window *window) {
 // Hide/Unhide labels when called
 static void timer_callback(void *data) {
   
-  // Checks if watch was already shaken (shook!?)
-  if (shake == true) {
-    shake = false;
-  }
-  else if (shake == false) {
-  // First. Bluetooth check.
-    if (state == 0) {
-      text_layer_set_text(s_state_top_label, "DA");
-      text_layer_set_text(s_state_bottom_label, "TE");
-      layer_set_hidden((Layer *)s_month_label, false);
-      layer_set_hidden((Layer *)s_day_label, false);
-    
-      state = 1;
-    
-      app_timer_register(1 * 1000, timer_callback, NULL);
+  if (running == true) {
+    // Checks if watch was already shaken (shook!?)
+    if (shake == true) {
+      shake = false;
     }
+    else if (shake == false) {
+    // First. Bluetooth check.
+      if (state == 0) {
+        text_layer_set_text(s_state_top_label, "DA");
+        text_layer_set_text(s_state_bottom_label, "TE");
+         layer_set_hidden((Layer *)s_month_label, false);
+        layer_set_hidden((Layer *)s_day_label, false);
+    
+        state = 1;
+    
+        app_timer_register(1 * 1000, timer_callback, NULL);
+      }
   
-    // Display the date
-    else if (state == 1) {
-      layer_set_hidden((Layer *)s_state_top_label, true);
-      layer_set_hidden((Layer *)s_state_bottom_label, true);
+      // Display the date
+      else if (state == 1) {
+        layer_set_hidden((Layer *)s_state_top_label, true);
+        layer_set_hidden((Layer *)s_state_bottom_label, true);
     
-      state = 2;
+        state = 2;
     
-      app_timer_register(2 * 1000, timer_callback, NULL);
-    }
+        app_timer_register(2 * 1000, timer_callback, NULL);
+      }
   
-    // Display "TIME"
-    else if (state == 2) {
-      text_layer_set_text(s_state_top_label, "TI");
-      text_layer_set_text(s_state_bottom_label, "ME");
-      layer_set_hidden((Layer *)s_state_top_label, false);
-      layer_set_hidden((Layer *)s_state_bottom_label, false);
-      layer_set_hidden((Layer *)s_month_label, true);
-      layer_set_hidden((Layer *)s_day_label, true);
+      // Display "TIME"
+      else if (state == 2) {
+        text_layer_set_text(s_state_top_label, "TI");
+        text_layer_set_text(s_state_bottom_label, "ME");
+        layer_set_hidden((Layer *)s_state_top_label, false);
+        layer_set_hidden((Layer *)s_state_bottom_label, false);
+        layer_set_hidden((Layer *)s_month_label, true);
+        layer_set_hidden((Layer *)s_day_label, true);
     
-      state = 3;
-    
-      app_timer_register(1 * 1000, timer_callback, NULL);
-    }
+        state = 3;
+      
+        app_timer_register(1 * 1000, timer_callback, NULL);
+      }
   
-    // Display the time
-    else if (state == 3) {
-      layer_set_hidden((Layer *)s_state_top_label, true);
-      layer_set_hidden((Layer *)s_state_bottom_label, true);
-    
-      state = 1;
-      running = false;
+      // Display the time
+      else if (state == 3) {
+        layer_set_hidden((Layer *)s_state_top_label, true);
+        layer_set_hidden((Layer *)s_state_bottom_label, true);
+      
+        state = 1;
+        running = false;
+      }
     }
   }
 }
@@ -377,7 +379,7 @@ static void tap_handler(AccelAxisType axis, int32_t direction) {
       }
     }
   }
-  
+
 }
 
 // Unloads the layers on the main window
