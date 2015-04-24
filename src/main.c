@@ -15,11 +15,10 @@ int dot = 0;
 int x = 12;
 int y = 156;
 
-// Bluetooth
+// States
 int state = 1; // Determines which state the state_label is in
+bool running = false;
 bool bt = true; // Determines state that bluetooth is in. True is on.
-
-//Number of shakes
 bool shake = false; // Determines if the watch has been shaken (shook?)
 
 // Buffers
@@ -333,6 +332,7 @@ static void timer_callback(void *data) {
       layer_set_hidden((Layer *)s_state_bottom_label, true);
     
       state = 1;
+      running = false;
     }
   }
 }
@@ -340,39 +340,44 @@ static void timer_callback(void *data) {
 //Control the shake gesture
 static void tap_handler(AccelAxisType axis, int32_t direction) {
   
-  // Checks if watch was already shaken (SHOOK?!)
-  if (shake == false) {
-    shake = true;
+  // Checks if the date->time sequence is already running
+  if (running == false) {
+    // Checks if watch was already shaken (SHOOK?!)
+    if (shake == false) {
+      shake = true;
     
-    app_timer_register(10 * 1000, timer_callback, NULL);
-  }
-  else if (shake == true) {
-    shake = false;
-    // Show "DATE"
-    if (state == 1) {
-      if (bt == true) {
-        text_layer_set_text(s_state_top_label, "DA");
-        text_layer_set_text(s_state_bottom_label, "TE");
-        layer_set_hidden((Layer *)s_month_label, false);
-        layer_set_hidden((Layer *)s_day_label, false);
-        layer_set_hidden((Layer *)s_state_top_label, false);
-        layer_set_hidden((Layer *)s_state_bottom_label, false);
+      app_timer_register(10 * 1000, timer_callback, NULL);
+    }
+    else if (shake == true) {
+      shake = false;
+      running = true;
+      // Show "DATE"
+      if (state == 1) {
+        if (bt == true) {
+          text_layer_set_text(s_state_top_label, "DA");
+          text_layer_set_text(s_state_bottom_label, "TE");
+          layer_set_hidden((Layer *)s_month_label, false);
+          layer_set_hidden((Layer *)s_day_label, false);
+          layer_set_hidden((Layer *)s_state_top_label, false);
+          layer_set_hidden((Layer *)s_state_bottom_label, false);
       
-        app_timer_register(1 * 1000, timer_callback, NULL);
+          app_timer_register(1 * 1000, timer_callback, NULL);
       
-      }
-      else if (bt == false) {
-        text_layer_set_text(s_state_top_label, "NO");
-        text_layer_set_text(s_state_bottom_label, "BT");
-        layer_set_hidden((Layer *)s_state_top_label, false);
-        layer_set_hidden((Layer *)s_state_bottom_label, false);
+        }
+        else if (bt == false) {
+          text_layer_set_text(s_state_top_label, "NO");
+          text_layer_set_text(s_state_bottom_label, "BT");
+          layer_set_hidden((Layer *)s_state_top_label, false);
+          layer_set_hidden((Layer *)s_state_bottom_label, false);
+        
+          state = 0;
       
-        state = 0;
-      
-        app_timer_register(1 * 1000, timer_callback, NULL);
+          app_timer_register(1 * 1000, timer_callback, NULL);
+        }
       }
     }
   }
+  
 }
 
 // Unloads the layers on the main window
