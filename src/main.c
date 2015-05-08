@@ -61,7 +61,7 @@ static void update_bg(Layer *layer, GContext *ctx) {
   
   //Background color
   #ifdef PBL_COLOR
-    graphics_context_set_fill_color(ctx, GColorVividCerulean); // Set the fill color.
+    graphics_context_set_fill_color(ctx, GColorBlueMoon); // Set the fill color.
   #else 
     graphics_context_set_fill_color(ctx, GColorBlack); // Set the fill color.
   #endif
@@ -255,12 +255,12 @@ static void main_window_load(Window *window) {
   
   // Set background and text colors
   #ifdef PBL_COLOR 
-    text_layer_set_background_color(s_month_label, GColorVividCerulean);
-    text_layer_set_background_color(s_day_label, GColorVividCerulean);
-    text_layer_set_background_color(s_hour_label, GColorVividCerulean);
-    text_layer_set_background_color(s_min_label, GColorVividCerulean);
-    text_layer_set_background_color(s_state_top_label, GColorVividCerulean);
-    text_layer_set_background_color(s_state_bottom_label, GColorVividCerulean);
+    text_layer_set_background_color(s_month_label, GColorBlueMoon);
+    text_layer_set_background_color(s_day_label, GColorBlueMoon);
+    text_layer_set_background_color(s_hour_label, GColorBlueMoon);
+    text_layer_set_background_color(s_min_label, GColorBlueMoon);
+    text_layer_set_background_color(s_state_top_label, GColorBlueMoon);
+    text_layer_set_background_color(s_state_bottom_label, GColorBlueMoon);
   #else
     text_layer_set_background_color(s_month_label, GColorBlack);
     text_layer_set_background_color(s_day_label, GColorBlack);
